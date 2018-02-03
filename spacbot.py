@@ -49,25 +49,28 @@ def index(request):
     if webhook['data']['personEmail'] != bot_email:
         in_message = result.get('text', '').lower()
         in_message = in_message.replace(bot_name, '')
-        if 'batman' in in_message or "whoareyou" in in_message:
-            msg = "I'm Batman!"
-        elif 'fuck you' in in_message:
-            msg = "FIGHT ME DUMB BITCH"
-        elif 'hello' in in_message:
-            msg = "hi"
-        elif 'batcave' in in_message:
-            message = result.get('text').split('batcave')[1].strip(" ")
-            if len(message) > 0:
-                msg = "The Batcave echoes, '{0}'".format(message)
-            else:
-                msg = "The Batcave is silent..."
-        elif 'batsignal' in in_message:
-            print "NANA NANA NANA NANA"
-            sendSparkPOST("https://api.ciscospark.com/v1/messages", {"roomId": webhook['data']['roomId'], "files": bat_signal})
-        if msg != None:
-            print msg
-            sendSparkPOST("https://api.ciscospark.com/v1/messages", {"roomId": webhook['data']['roomId'], "text": msg})
+        ProcessMessage(in_message)
     return "true"
+
+def ProcessMessage(message):
+    if 'batman' in message or "whoareyou" in message:
+            msg = "I'm Batman!"
+    elif 'fuck you' in message:
+        msg = "FIGHT ME DUMB BITCH"
+    elif 'hello' in message:
+        msg = "hi"
+    elif 'batcave' in message:
+        message = result.get('text').split('batcave')[1].strip(" ")
+        if len(message) > 0:
+            msg = "The Batcave echoes, '{0}'".format(message)
+        else:
+            msg = "The Batcave is silent..."
+    elif 'batsignal' in message:
+        print "NANA NANA NANA NANA"
+        sendSparkPOST("https://api.ciscospark.com/v1/messages", {"roomId": webhook['data']['roomId'], "files": bat_signal})
+    if msg != None:
+        print msg
+        sendSparkPOST("https://api.ciscospark.com/v1/messages", {"roomId": webhook['data']['roomId'], "text": msg})
 
 
 ####CHANGE THESE VALUES#####
